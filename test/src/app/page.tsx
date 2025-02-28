@@ -1,5 +1,14 @@
+function MyButton(){
+  return(
+    <button>I'm a button</button>
+  ); 
+}
+
 export default function Page(){
   return(
-    <h1>Hello World!</h1>
-  )
+    <div>
+      <h1>My Page</h1>
+      <MyButton />
+    </div>
+  );
 }
