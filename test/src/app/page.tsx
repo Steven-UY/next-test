@@ -1,14 +1,7 @@
-function MyButton(){
-  return(
-    <button>I'm a button</button>
-  ); 
-}
+import Gallery from "./gallery";
 
-export default function Page(){
-  return(
-    <div>
-      <h1>My Page</h1>
-      <MyButton />
-    </div>
-  );
+export default function Page() {
+  return (
+    <Gallery />
+  )
 }
