@@ -1,3 +1,6 @@
-# next-test
+# Pokédex Remastered
 
-Just testing next-js features for learning lol
+This project is for me to get better with next.js, react and making API calls
+
+
+
