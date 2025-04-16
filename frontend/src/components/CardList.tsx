@@ -3,33 +3,39 @@ import { useState, useEffect} from "react"
 
 interface pokemon{
     name:string;
+    id:number;
     sprites:{
         front_default:string;
     }
 }
 
 export default function CardList() {
-    const [pokemon, setPokemon] = useState<pokemon | null>(null);
+    const [pokemons, setPokemons] = useState<pokemon[]>([]);
 
 
     useEffect(() => {
-        fetch("https://pokeapi.co/api/v2/pokemon/pikachu/")
+        fetch("https://pokeapi.co/api/v2/pokemon/")
           .then(res => {
             return res.json();
           })
           .then(data => {
-            setPokemon(data);
+            setPokemons(data.results);
+            console.log('Pokemon data:', data);
           })
     }, []);
 
+    const pokemonList = pokemons.map(pokemon => (
+      <Card key={pokemon.id}>
+        <CardHeader>
+          <CardTitle>{pokemon.name}</CardTitle>
+        </CardHeader>
+      </Card>
+    ))
+
     return(
-        pokemon &&(<div className ="grid grid-cols-4 gap-12">
-                <Card>
-                  <div>
-                    <img src={pokemon.sprites.front_default}/>
-                  </div>
-                  <CardTitle>{pokemon.name}</CardTitle>
-                </Card>
-            </div>
-    )
-)}
+      <div>
+        <div className="grid grid-cols-3 gap-4">
+          {pokemonList}
+        </div>
+      </div>
+    )}
