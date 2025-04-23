@@ -1,5 +1,6 @@
-import { Card, CardHeader, CardTitle} from "@/components/ui/card"
+import { Card, CardTitle} from "@/components/ui/card"
 import { useState, useEffect} from "react"
+import SearchBar from "@/components/SearchBar"
 
 interface pokemon{
     name:string;
@@ -17,7 +18,26 @@ interface details {
 export default function CardList() {
     const [pokemons, setPokemons] = useState<pokemon[]>([]);
     const [details, setDetails] = useState<details[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
+    //Need a function that whenever we type in the search bar 
+    //it will filter the contents of the pokemon list based on the search term
+    function updateSearchTerm(event: React.ChangeEvent<HTMLInputElement>){
+        const value = event.target.value;
+        setSearchTerm(value);
+    }
+
+    //Define a function that will filter the pokemon list based on the search term
+    function filterPokemons(){
+      if (searchTerm.length > 0){
+        const filteredPokemons = details.filter((pokemon) => {
+          return pokemon.name.toLowerCase().includes(searchTerm.toLowerCase());
+        })
+        return filteredPokemons;
+      } else {
+        return details;
+      }
+    }
 
     useEffect(() => { 
       // Fetch the pokemon from the API
@@ -30,12 +50,12 @@ export default function CardList() {
     }, []);
 
     useEffect(() => {
+      // Fetch the details of each pokemon
       const fetchDetails = async () => {
         const pokemonDetailsPromises = pokemons.map(async (pokemon) => {
           const response = await fetch(pokemon.url);
           return await response.json();
         });
-
         const allPokemonData = await Promise.all(pokemonDetailsPromises);
 
         setDetails(allPokemonData);
@@ -44,8 +64,9 @@ export default function CardList() {
         fetchDetails();
       }
     }, [pokemons]);
-    
-    const pokemonList = details.map(pokemonDetails => (
+
+
+    const pokemonList = filterPokemons().map(pokemonDetails => (
       <Card key={pokemonDetails.name} className="overflow-hidden hover:shadow-lg transition-shadow">
         <div className="p-4 flex justify-center bg-gray-50">
           <img
@@ -58,11 +79,12 @@ export default function CardList() {
       </Card>
     ))
 
-
     return(
       <div>
+        <SearchBar onChange={updateSearchTerm} />
         <div className="grid grid-cols-3 gap-4">
           {pokemonList}
         </div>
       </div>
     )}
+
