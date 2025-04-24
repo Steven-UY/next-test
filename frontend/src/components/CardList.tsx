@@ -1,5 +1,6 @@
 import { Card, CardTitle} from "@/components/ui/card"
 import { useState, useEffect} from "react"
+import CardRender from "./CardRender";
 import SearchBar from "@/components/SearchBar"
 
 interface pokemon{
@@ -13,6 +14,7 @@ interface details {
     front_default:string;
     back_default:string;
   }
+  id: number;
 }
 
 export default function CardList() {
@@ -65,20 +67,15 @@ export default function CardList() {
       }
     }, [pokemons]);
 
-
+    
     const pokemonList = filterPokemons().map(pokemonDetails => (
-      <Card key={pokemonDetails.name} className="overflow-hidden hover:shadow-lg transition-shadow">
-        <div className="p-4 flex justify-center bg-gray-50">
-          <img
-          src={pokemonDetails.sprites.front_default}
-          alt={pokemonDetails.name}
-          className="h-40 object-contain"
-          />
-        </div>
-          <CardTitle>{pokemonDetails.name}</CardTitle>
-      </Card>
+      <CardRender 
+        name = {pokemonDetails.name}
+        sprites = {pokemonDetails.sprites}
+        id = {pokemonDetails.id}
+      />
     ))
-
+    
     return(
       <div>
         <SearchBar onChange={updateSearchTerm} />
