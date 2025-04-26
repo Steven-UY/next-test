@@ -50,7 +50,7 @@ export default function CardList() {
       }
       fetchPokemons();
     }, []);
-
+    
     useEffect(() => {
       // Fetch the details of each pokemon
       const fetchDetails = async () => {
@@ -72,13 +72,13 @@ export default function CardList() {
       <CardRender 
         name = {pokemonDetails.name}
         sprites = {pokemonDetails.sprites}
-        id = {pokemonDetails.id}
+        key = {pokemonDetails.id}
       />
     ))
-    
+
     return(
       <div>
-        <SearchBar onChange={updateSearchTerm} />
+        <SearchBar onChange={updateSearchTerm} searchTerm={searchTerm} />
         <div className="grid grid-cols-3 gap-4">
           {pokemonList}
         </div>
