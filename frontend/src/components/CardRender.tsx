@@ -10,9 +10,9 @@ interface CardProps{
     }
 }
 
-export default function({ name, sprites, key }: CardProps) {
+export default function({ name, sprites}: CardProps) {
     return(
-        <Card key={key} className="overflow-hidden hover:shadow-lg transition-shadow">
+        <Card className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="p-4 flex justify-center bg-gray-50">
                 <img
                 src={sprites.front_default}
